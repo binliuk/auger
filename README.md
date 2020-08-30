@@ -27,7 +27,7 @@ Installation
 Check out and build:
 
 ```sh
-git clone https://github.com/jpbetz/auger
+git clone https://github.com/binliuk/auger
 cd auger
 make release
 ```
@@ -119,6 +119,18 @@ auger checksum -f <member-3-boltdb-file> -r 7
 > revision: 7
 # Oh noes! The checksum should have been the same!
 ```
+Docker Image
+
+Add etcdctl, Openshift Client, jq to this toolbox
+
+build the image and run 
+
+``` sh
+ docker build -t binliuk/auger --network=host .
+ docker run --rm -it binliuk/auger
+
+```
+
 
 TODO
 ----
