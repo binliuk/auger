@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  generateName: build-auger-pipelinerun-
+spec:
+  pipelineRef:
+    name: build-auger
+  resources:
+    - name: auger-repo
+      resourceRef:
+        name: auger-repo
+    - name: auger-image
+      resourceRef:
+        name: auger-image

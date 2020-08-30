@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: vauger-tbx 
+  name: vauger-tbx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vauger-tbx
+  template:
+    metadata:
+      labels:
+        app: vauger-tbx 
+    spec:
+      containers:
+      - image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:633e031d8ae1e6f5954c01984849ee8ffd251e587a0ace0b455d43464d20abb0
+        imagePullPolicy: IfNotPresent
+        name: vauger-tbx 
+        command: ["sleep"]
+        args: ["3600"]
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+            - SYS_TIME
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /test-pd
+          name: test-volume
+        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          name: default-token-6vj2t
+          readOnly: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      hostNetwork: true
+      imagePullSecrets:
+      - name: default-dockercfg-fzvhm
+      nodeName: fabric-sandbox-h5tw7-master-0
+      nodeSelector:
+        kubernetes.io/hostname: fabric-sandbox-h5tw7-master-0
+      priority: 0
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: default
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoExecute
+        key: node.kubernetes.io/not-ready
+        operator: Exists
+        tolerationSeconds: 300
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+        tolerationSeconds: 300
+      volumes:
+      - hostPath:
+          path: /etc
+          type: Directory
+        name: test-volume
+      - name: default-token-6vj2t
+        secret:
+          defaultMode: 420
+          secretName: default-token-6vj2t
