@@ -1,6 +1,6 @@
 FROM golang:1.14-alpine
-#RUN echo -e "http://nl.alpinelinux.org/alpine/v3.5/main\nhttp://nl.alpinelinux.org/alpine/v3.5/community" > /etc/apk/repositories
-RUN apk add --no-cache curl git bash && rm -rf /var/cache/apk/*
+
+RUN apk add --no-cache curl git bash jq && rm -rf /var/cache/apk/*
 
 WORKDIR /go/src/github.com/kubernetes-incubator/auger
 ADD     . /go/src/github.com/kubernetes-incubator/auger
@@ -25,5 +25,16 @@ RUN    /tmp/etcd-download-test/etcdctl version
 
 RUN    mv /tmp/etcd-download-test/etcdctl /bin/
 RUN    rm -Rf /tmp/etcd-download-test /var/cache/apk/*
+
+RUN   curl --retry 7 -Lo /tmp/client-tools.tar.gz "https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz"
+
+# install openshift client
+RUN   tar zxf /tmp/client-tools.tar.gz -C /usr/local/bin oc && \
+      mv /usr/local/bin/oc /usr/local/bin/ocexe && \
+      rm /tmp/client-tools.tar.gz 
+
+# create alias for oc
+RUN   echo -e '#!/bin/bash\n/lib/ld-musl-x86_64.so.1 --library-path /lib /usr/local/bin/ocexe "$@"' > /usr/bin/oc && \
+      chmod +x /usr/bin/oc
 
 ENTRYPOINT ["bash"]
