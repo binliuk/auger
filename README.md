@@ -120,6 +120,7 @@ auger checksum -f <member-3-boltdb-file> -r 7
 # Oh noes! The checksum should have been the same!
 ```
 Docker Image
+----
 
 Add etcdctl, Openshift Client, jq to this toolbox
 
