@@ -38,4 +38,5 @@ RUN   tar zxf /tmp/client-tools.tar.gz -C /usr/local/bin oc && \
 RUN   echo -e '#!/bin/bash\n/lib/ld-musl-x86_64.so.1 --library-path /lib /usr/local/bin/ocexe "$@"' > /usr/bin/oc && \
       chmod +x /usr/bin/oc
 
+WORKDIR /go/bin
 ENTRYPOINT ["bash"]
