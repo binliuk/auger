@@ -5,6 +5,7 @@ RUN apk add --no-cache curl git bash jq && rm -rf /var/cache/apk/*
 WORKDIR /go/src/github.com/kubernetes-incubator/auger
 ADD     . /go/src/github.com/kubernetes-incubator/auger
 RUN     go build && go install && chmod +x /go/bin/auger
+RUN     rm -rf /go/src
 
 ENV    ETCD_VER=v3.4.13
 # choose either URL
