@@ -1,4 +1,4 @@
-FROM golang:1.14-alpine
+FROM golang:1.14-alpine AS builder
 
 RUN apk add --no-cache curl git bash jq && rm -rf /var/cache/apk/*
 
@@ -7,6 +7,13 @@ ADD     . /go/src/github.com/kubernetes-incubator/auger
 RUN     go build && go install && chmod +x /go/bin/auger
 RUN     rm -rf /go/src
 
+
+FROM   alpine:latest
+
+WORKDIR /go/bin
+COPY   --from=builder /go/bin/auger .
+
+RUN    apk add --no-cache curl git bash jq && rm -rf /var/cache/apk/*
 ENV    ETCD_VER=v3.4.13
 # choose either URL
 ENV    GOOGLE_URL=https://storage.googleapis.com/etcd
