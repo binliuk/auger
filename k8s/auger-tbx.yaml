@@ -18,8 +18,8 @@ spec:
       - image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:633e031d8ae1e6f5954c01984849ee8ffd251e587a0ace0b455d43464d20abb0
         imagePullPolicy: IfNotPresent
         name: vauger-tbx 
-        command: ["sleep"]
-        args: ["3600"]
+        command: ["tail"]
+        args: ["-f", "/dev/null"]
         resources: {}
         securityContext:
           capabilities:
