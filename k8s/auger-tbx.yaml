@@ -31,17 +31,11 @@ spec:
         volumeMounts:
         - mountPath: /test-pd
           name: test-volume
-        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-          name: default-token-6vj2t
-          readOnly: true
       dnsPolicy: ClusterFirst
       enableServiceLinks: true
       hostNetwork: true
-      imagePullSecrets:
-      - name: default-dockercfg-fzvhm
-      nodeName: fabric-sandbox-h5tw7-master-0
       nodeSelector:
-        kubernetes.io/hostname: fabric-sandbox-h5tw7-master-0
+        node-role.kubernetes.io/master: ""
       priority: 0
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -66,7 +60,3 @@ spec:
           path: /etc
           type: Directory
         name: test-volume
-      - name: default-token-6vj2t
-        secret:
-          defaultMode: 420
-          secretName: default-token-6vj2t
